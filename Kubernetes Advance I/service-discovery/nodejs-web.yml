@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs-web
+  template:
+    metadata:
+      labels:
+        app: nodejs-web
+    spec:
+      containers:
+      - name: kubernetes-demo
+        image: anshuldevops/kubernetes-demo
+        command: ["node", "index-db.js"]
+        ports:
+        - name: nodejs-port
+          containerPort: 3000
+        env:
+          - name: MYSQL_HOST
+            value: database-service
+          - name: MYSQL_USER
+            value: root
+          - name: MYSQL_PASSWORD
+            value: rootpassword
+          - name: MYSQL_DATABASE
+            value: helloworld

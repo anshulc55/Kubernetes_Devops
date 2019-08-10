@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-posix-env
+spec:
+  containers:
+  - name: posix-test
+    image: anshuldevops/kubernetes-web:1.10.6
+    ports:
+    - containerPort: 8080
+    envFrom:
+    - configMapRef:
+      name: posix-config

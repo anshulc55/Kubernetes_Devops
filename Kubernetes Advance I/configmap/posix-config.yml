@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: ui-config
+ namespace: default
+data:
+ FONT_DEFAULT_COLOR: green
+ FONT_DEFAULT_SIZE: "14px"

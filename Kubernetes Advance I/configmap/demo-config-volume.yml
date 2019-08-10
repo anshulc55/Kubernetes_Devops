@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-config-volume
+spec:
+  containers:
+  - name: demo-cofigvol
+    image: anshuldevops/kubernetes-web:1.10.6
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config
+  volumes:
+  - name: config-volume
+    configMap:
+      name: simple-configmap
+  restartPolicy: Never
