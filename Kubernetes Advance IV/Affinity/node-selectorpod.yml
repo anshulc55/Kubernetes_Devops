@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd
+  labels:
+    env: prod
+spec:
+  containers:
+  - name: httpd
+    image: httpd
+  nodeSelector:
+    disk-type: ssd

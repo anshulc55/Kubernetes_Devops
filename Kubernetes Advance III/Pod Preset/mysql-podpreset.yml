@@ -1,0 +1,17 @@
+kind: PodPreset
+apiVersion: settings.k8s.io/v1alpha1
+metadata:
+  name: mysql-db-preset
+spec:
+  selector:
+    matchLabels:
+      role: mysql-database
+  env:
+    - name: MYSQL_DB_PORT
+      value: "3306"
+    - name: SOCKET_FILE
+      value: "/var/run/mysql.sock"
+    - name: MYSQL_DATA_DIR
+      value: "/data"
+    - name: MYSQL_ENGINE
+      value: "innodb"

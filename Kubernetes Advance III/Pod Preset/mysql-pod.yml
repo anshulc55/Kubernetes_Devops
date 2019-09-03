@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    app: mysql-server
+    role: mysql-database
+spec:
+  containers:
+    - name: mysql
+      image: mysql:8.0
+      command: ["mysqld"]
+  initContainers:
+  - name: init-mysql
+    image: initmysql
+    command: ['script.sh']

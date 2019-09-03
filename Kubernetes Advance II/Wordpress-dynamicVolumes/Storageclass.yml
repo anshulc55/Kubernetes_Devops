@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aws-standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  zone: ap-south-1a

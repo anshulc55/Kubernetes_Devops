@@ -1,0 +1,75 @@
+******* AutoScale Kubernetes *********
+
+1. Create Kubernetes Cluster if doesn't exists already
+kops create cluster --yes --state=s3://kops-bucket-a87654 --zones=ap-south-1a --node-size=t2.micro --master-size=t2.micro --name=level360degree.uk
+
+2. Verify the Status of Cluster and wait until get the Status Successful
+kops validate cluster --state=s3://kops-bucket-a87654
+
+3. Create Manifest File of Deployment & Service
+
+4. Deploy the Deployment
+
+5. Create HPA for the deployment
+kubectl autoscale deployment hpa-example --min=2 --max=10 --cpu-percent=50
+
+Add Watch to verify the latest status of Cluster by below Commands.(This is Optional as not impacting the Functionality of Cluster)
+kubectl get service,hpa,pod -owide
+watch -n1 !!
+
+6. Verify Status of HPA
+kubectl describe hpa
+kubectl get hpa
+
+7. Install Metric Server 
+A. First Delete the existing Metric Server if any
+kubectl delete -n kube-system deployments.apps metrics-server
+
+B. Get the Metric Server form GitHub
+git clone https://github.com/kubernetes-incubator/metrics-server.git
+
+C. Edit the file deploy/1.8+/metrics-server-deployment.yaml to override the default command by adding a command section.
+containers:
+- name: metrics-server
+    image: k8s.gcr.io/metrics-server-amd64:v0.3.1
+    command:
+      - /metrics-server
+      - --kubelet-insecure-tls
+      - --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP
+
+D. Add metrics-server to your Kubernetes instance.
+kubectl create -f metric-server/deploy/1.8+
+
+8. Verify the logs of Metric-Server by below commands
+kubectl -n kube-system get pods
+kubectl -n kube-system  logs
+
+Also Verify that, are we getting the metrices.
+kubectl top nodes
+kubectl top pods
+
+9. Create the WebHook in Cluster for Kubelet
+A. Edit Cluster :
+kops edit cluster --state=s3://kops-bucket-a87654
+
+B. Add below section for Kubelet, ignore if already Present.
+kubelet:
+    anonymousAuth: false
+    authenticationTokenWebhook: true
+    authorizationMode: Webhook
+
+C. Update the Kubernetes Cluster.
+kops update cluster --state=s3://kops-bucket-a87654 level360degree.uk --yes
+
+D. Rolling-Update the Kubernetes Cluster to get this new Setting Effective on Cluster.
+kops rolling-update cluster --state=s3://kops-bucket-a87654 level360degree.uk --yes
+
+
+10. Run Busy Box Image on Cluster to access the existing Service.
+kubectl run -i --tty busy-box --image=busybox /bin/sh 
+
+11. Verify that is Service Accessible 
+wget http://hpa-example.default.svc.cluster.local:31010
+
+12. Put load on Cluster by executing above command in loop on BusyBox Shell.
+while true; do wget -q -O- http://hpa-example.default.svc.cluster.local:31010; done
