@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment
+  namespace: mynamespace
+  labels:
+    app: nginx-ssl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-ssl
+  template:
+    metadata:
+      labels:
+        app: nginx-ssl
+    spec:
+      containers:
+      - name: k8s-demo
+        image: nginx:1.16
+        ports:
+        - name: nginxssl-port
+          containerPort: 8081
+        resources:
+          requests:
+            cpu: 200m
+            memory: 0.5Gi
+          limits:
+            cpu: 400m
+            memory: 1Gi
