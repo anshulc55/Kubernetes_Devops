@@ -1,0 +1,34 @@
+Execute Kubernetes on Google Cloud and Run Application
+
+1. Create Google Cloud Kubernetes Cluster
+gcloud container clusters create mykubernetes-cluster
+
+2. Describe Kubernetes Cluser :
+gcloud container clusters describe mykubernetes-cluster
+
+3. List Running Instance in Kubernetes Cluster
+gcloud container clusters list mykubernetes-cluster
+
+4. Start the Deployment on Kubernetes Cluster.
+kubectl create deployment magicalnginx --image=anshuldevops/magicalnginx
+
+5. Get Information of Running Deployments
+kubectl get deployments
+
+6. Describe the Running Deployment
+kubectl describe deployment magicalnginx
+
+7. Make the NGINX container accessible via the internet via loadbalancer:
+kubectl create service loadbalancer magicalnginx --tcp=80:80
+
+8. Get Running Services
+kubectl get svc
+
+9. Remove Services 
+kubectl delete services magicalnginx
+
+10. Remove Deployment 
+kubectl delete deployment magicalnginx
+
+11. Delete Google Cloud Kubernetes Cluster
+gcloud container clusters delete mykubernetes-cluster

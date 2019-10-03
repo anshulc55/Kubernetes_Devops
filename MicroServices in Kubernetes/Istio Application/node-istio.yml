@@ -1,0 +1,45 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: nodejs-gateway
+spec:
+  #A selector that will match this resource with the default Istio 
+  #IngressGateway controller that was enabled with the 
+  #configuration profile we selected when installing Istio.
+  selector:
+    istio: ingressgateway 
+
+  #A servers specification that specifies the port to expose for ingress
+  #and the hosts exposed by the Gateway. 
+  #In this case, we are specifying all hosts with an asterisk (*) 
+  #since we are not working with a specific secured domain.
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nodejs
+spec:
+  #A hosts field that specifies the destination host. 
+  #In this case, we’re again using a wildcard value (*) to enable 
+  #quick access to the application in the browser. 
+  #since we’re not working with a domain.
+  hosts:
+  - "*"
+  #A gateways field that specifies the Gateway through which 
+  #external requests will be allowed.
+  gateways:
+  - nodejs-gateway
+  http:
+  - route:
+    #A destination field that indicates where the request 
+    #will be routed. In this case, it will be routed to the nodejs
+    #service
+    - destination:
+        host: nodejs
