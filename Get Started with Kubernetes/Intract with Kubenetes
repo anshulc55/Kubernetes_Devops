@@ -1,0 +1,24 @@
+********** Interact Cluster Using KubeCtl **********
+1. Use the kubectl create command to create a Deployment that manages a Pod. The Pod runs a Container based on the provided Docker image.
+kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.10
+
+2. View the Deployment:
+kubectl get deployments
+
+3. View the Pod:
+kubectl get pods
+
+4. Expose the Pod to the public internet using the kubectl expose command:
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+**The --type=LoadBalancer flag indicates that you want to expose your Service outside of the cluster.
+
+5. View the Service you created:
+minikube service hello-node
+
+CleanUP -
+1. Remove service
+kubectl delete service hello-node
+
+2. Remove Deployments-
+kubectl delete deployment hello-node

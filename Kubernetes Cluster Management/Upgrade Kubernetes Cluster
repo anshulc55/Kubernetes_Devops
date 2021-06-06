@@ -1,0 +1,65 @@
+***************** Upgrade Control Plane Node ******************
+
+1. Get the Running Node and Version
+kubectl get nodes
+
+2. Drain Master Node
+kubectl drain <node-to-drain> --ignore-daemonsets
+
+3. Upgrade kubeadm
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
+
+4. Verify that the download works and has the expected version:
+kubeadm version
+
+5. Verify the upgrade plan
+sudo kubeadm upgrade plan v1.21.1-00
+
+6. Apply the Upgrade
+sudo kubeadm upgrade apply v1.21.1
+
+7. Upgrade kubelet and kubectl packages
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
+
+8. Restart the kubelet:
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+
+10. Get the Running Node and Version
+kubectl get nodes
+
+11. Uncordon the Node
+kubectl uncordon <node-to-uncordon>
+
+
+***************** Upgrade Worker Node ******************
+
+1. Drain Worker Node
+kubectl drain <node-to-drain> --ignore-daemonsets --force
+
+2. Upgrade kubeadm
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubeadm=1.21.1-00
+
+3. Verify that the download works and has the expected version:
+kubeadm version
+
+4. For worker nodes this upgrades the local kubelet configuration
+sudo kubeadm upgrade node
+
+5. Upgrade kubelet and kubectl packages
+sudo apt-get update
+sudo apt-get install -y --allow-change-held-packages kubelet=1.21.1-00 kubectl=1.21.1-00
+
+6. Restart the kubelet:
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+
+7. Get the Running Node and Version
+kubectl get nodes
+
+8. Uncordon the Node
+kubectl uncordon <node-to-uncordon>
+

@@ -1,0 +1,9 @@
+import { DocumentSymbol, SymbolKind, InsertTextFormat } from 'vscode-languageserver-types';
+import { CompletionItem, CompletionItemKind, SymbolInformation, Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
+import { ErrorCode } from 'vscode-json-languageservice';
+export declare function createExpectedError(message: string, startLine: number, startCharacter: number, endLine: number, endCharacter: number, severity?: DiagnosticSeverity, source?: string, code?: ErrorCode): Diagnostic;
+export declare function createDiagnosticWithData(message: string, startLine: number, startCharacter: number, endLine: number, endCharacter: number, severity: DiagnosticSeverity, source: string, schemaUri: string | string[]): Diagnostic;
+export declare function createExpectedSymbolInformation(name: string, kind: SymbolKind, containerName: string | undefined, uri: string, startLine: number, startCharacter: number, endLine: number, endCharacter: number): SymbolInformation;
+export declare function createExpectedDocumentSymbol(name: string, kind: SymbolKind, startLine: number, startCharacter: number, endLine: number, endCharacter: number, startLineSelection: number, startCharacterSelection: number, endLineSelection: number, endCharacterSelection: number, children?: DocumentSymbol[], detail?: string): DocumentSymbol;
+export declare function createExpectedDocumentSymbolNoDetail(name: string, kind: SymbolKind, startLine: number, startCharacter: number, endLine: number, endCharacter: number, startLineSelection: number, startCharacterSelection: number, endLineSelection: number, endCharacterSelection: number, children?: DocumentSymbol[]): DocumentSymbol;
+export declare function createExpectedCompletion(label: string, insertText: string, startLine: number, startCharacter: number, endLine: number, endCharacter: number, kind: CompletionItemKind, insertTextFormat?: InsertTextFormat, extra?: {}): CompletionItem;
