@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: player-pro-demo
+data:
+  # property-like keys; each key maps to a simple value
+  player_lives: "5"
+  properties_file_name: "user-interface.properties"
+
+  # file-like keys
+  base.properties: |
+    enemy.types=aliens,monsters
+    player.maximum-lives=10   
+  user-interface.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true  

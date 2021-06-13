@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-vol-demo
+spec:
+  containers:
+    - name: configmap-vol-demo
+      image: alpine
+      command: ["sleep", "3600"]
+      volumeMounts:
+      - name: player-map
+        mountPath: /etc/config/configMap
+      - name: player-secret
+        mountPath: /etc/config/secret
+  volumes:
+    # You set volumes at the Pod level, then mount them into containers inside that Pod
+    - name: player-map
+      configMap:
+        # Provide the name of the ConfigMap you want to mount.
+        name: player-pro-demo
+    - name: player-secret
+      secret:
+        secretName: example-secret
