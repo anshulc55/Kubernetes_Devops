@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chef-server
+  labels:
+    app: chef
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chef-server
+  template:
+    metadata:
+      labels:
+        app: chef-server
+    spec:
+      containers:
+        - name: chef-server
+          image: 'chef/chefdk:4.9'
+          ports:
+            - containerPort: 8080
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - echo Hello from the Chef container; sleep 3600
+        - name: ubuntu
+          image: 'ubuntu:18.04'
+          ports:
+            - containerPort: 8080
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - echo Hello from the Ubantu container; sleep 3600

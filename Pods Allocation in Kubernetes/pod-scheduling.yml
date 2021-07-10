@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-nodeselector
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+  nodeSelector:
+    disktype: ssd
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-nodename
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+  nodeName: k8s-worder-01
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-app
+spec:
+  containers:
+    - name: app
+      image: alpine
+      command:
+        - sleep
+        - '3600'
+      resources:
+        requests:
+          memory: 64Mi
+          cpu: 1000m
+  nodeSelector:
+    disktype: ssd
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-app-2
+spec:
+  containers:
+    - name: app
+      image: alpine
+      command:
+        - sleep
+        - '3600'
+      resources:
+        requests:
+          memory: 64Mi
+          cpu: 1000m
