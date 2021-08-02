@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pv-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["sh", "-c", "echo Hello Team, This is Persistnent Volume Claim >> /output/success.txt"]
+      volumeMounts:
+      - mountPath: /output
+        name: my-pv
+  volumes:
+    - name: my-pv
+      persistentVolumeClaim:
+        claimName: my-pvc

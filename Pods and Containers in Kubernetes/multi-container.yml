@@ -5,11 +5,6 @@ metadata:
 spec:
   restartPolicy: OnFailure
   containers:
-    - name: nginx-container
-      image: nginx
-      volumeMounts:
-        - name: shared-data
-          mountPath: /usr/share/nginx/html
     - name: debian-container
       image: debian
       volumeMounts:
@@ -17,6 +12,11 @@ spec:
           mountPath: /pod-data
       command: ["/bin/sh"]
       args: ["-c", "echo Hello from the Secondary container > /pod-data/index.html"]
+    - name: nginx-container
+      image: nginx
+      volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html
   volumes:
     - name: shared-data
       emptyDir: {}

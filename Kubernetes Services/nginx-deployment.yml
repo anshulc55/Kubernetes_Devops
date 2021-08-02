@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-official-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-official
+  template:
+    metadata:
+      labels:
+        app: nginx-official
+    spec:
+      containers:
+        - name: nginx-official
+          image: 'nginx:latest'
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: svc-test-dns
+  namespace: service-namespace
+spec:
+  containers:
+    - name: busybox-svc
+      image: radial/busyboxplus:curl
+      command:
+        - sleep
+        - '3600'
